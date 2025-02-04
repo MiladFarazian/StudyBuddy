@@ -71,7 +71,8 @@ const CompanyCard = ({ name }: { name: string }) => (
       <CardTitle>{name}</CardTitle>
     </CardHeader>
     <CardContent className="flex items-center justify-between">
-      <p className="text-gray-700">We're hiring!</p>
+      {/* Fixed the apostrophe issue */}
+      <p className="text-gray-700">We&apos;re hiring!</p>
       <Building className="text-blue-600" />
     </CardContent>
   </Card>
