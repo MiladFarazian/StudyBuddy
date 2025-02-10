@@ -139,7 +139,7 @@ export default function Dashboard() {
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <AnimatePresence mode="wait" custom={direction}>
-              {businessClasses.slice(classIndex, classIndex + 3).map((c, i) => (
+              {businessClasses.slice(classIndex, classIndex + 3).map((c) => (
                 <motion.div
                   key={c.title}
                   custom={direction}
@@ -176,7 +176,7 @@ export default function Dashboard() {
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <AnimatePresence mode="wait" custom={tutorDirection}>
-              {uscTutors.slice(tutorIndex, tutorIndex + 3).map((t, i) => (
+              {uscTutors.slice(tutorIndex, tutorIndex + 3).map((t) => (
                 <motion.div
                   key={t.name}
                   custom={tutorDirection}
