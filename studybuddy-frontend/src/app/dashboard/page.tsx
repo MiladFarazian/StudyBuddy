@@ -42,7 +42,13 @@ const uscTutors = [
   { name: "Jessica Walker", subject: "Organizational Behavior", rating: 4.9 },
 ];
 
-function NavItem({ icon: Icon, label }: { icon: any; label: string }) {
+function NavItem({
+  icon: Icon,
+  label,
+}: {
+  icon: React.ElementType;
+  label: string;
+}) {
   return (
     <div className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-200 cursor-pointer">
       <Icon className="h-5 w-5 text-blue-600" />
