@@ -1,9 +1,20 @@
 "use client";
 
-import { Home, MessageSquare, Book, User, ChevronLeft, ChevronRight } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
+import {
+  Home,
+  MessageSquare,
+  User,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../../../components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 
 const businessClasses = [
   { title: "Financial Accounting", instructor: "Prof. Jane Anderson" },
@@ -15,7 +26,7 @@ const businessClasses = [
   { title: "Operations Management", instructor: "Prof. Anna Scott" },
   { title: "International Business", instructor: "Prof. David Miller" },
   { title: "Investment Management", instructor: "Prof. Laura Green" },
-  { title: "Organizational Behavior", instructor: "Prof. Kevin Hall" }
+  { title: "Organizational Behavior", instructor: "Prof. Kevin Hall" },
 ];
 
 const uscTutors = [
@@ -28,7 +39,7 @@ const uscTutors = [
   { name: "Ryan Garcia", subject: "Operations Management", rating: 4.9 },
   { name: "Sophia Lewis", subject: "International Business", rating: 4.8 },
   { name: "Nathan Scott", subject: "Investment Management", rating: 4.7 },
-  { name: "Jessica Walker", subject: "Organizational Behavior", rating: 4.9 }
+  { name: "Jessica Walker", subject: "Organizational Behavior", rating: 4.9 },
 ];
 
 function NavItem({ icon: Icon, label }: { icon: any; label: string }) {
@@ -40,7 +51,13 @@ function NavItem({ icon: Icon, label }: { icon: any; label: string }) {
   );
 }
 
-function ClassCard({ title, instructor }: { title: string; instructor: string }) {
+function ClassCard({
+  title,
+  instructor,
+}: {
+  title: string;
+  instructor: string;
+}) {
   return (
     <Card className="p-6 h-48">
       <CardHeader>
@@ -53,7 +70,15 @@ function ClassCard({ title, instructor }: { title: string; instructor: string })
   );
 }
 
-function TutorCard({ name, subject, rating }: { name: string; subject: string; rating: number }) {
+function TutorCard({
+  name,
+  subject,
+  rating,
+}: {
+  name: string;
+  subject: string;
+  rating: number;
+}) {
   return (
     <Card className="p-6 h-48">
       <CardHeader>
@@ -75,12 +100,19 @@ export default function Dashboard() {
 
   const handleClassChange = (increment: number) => {
     setDirection(increment);
-    setClassIndex((prevIndex) => (prevIndex + (increment * 3) + businessClasses.length) % businessClasses.length);
+    setClassIndex(
+      (prevIndex) =>
+        (prevIndex + increment * 3 + businessClasses.length) %
+        businessClasses.length
+    );
   };
 
   const handleTutorChange = (increment: number) => {
     setTutorDirection(increment);
-    setTutorIndex((prevIndex) => (prevIndex + (increment * 3) + uscTutors.length) % uscTutors.length);
+    setTutorIndex(
+      (prevIndex) =>
+        (prevIndex + increment * 3 + uscTutors.length) % uscTutors.length
+    );
   };
 
   return (
@@ -102,7 +134,9 @@ export default function Dashboard() {
 
         {/* Class Section */}
         <section>
-          <h3 className="text-xl font-semibold mb-3">Available USC Marshall Classes</h3>
+          <h3 className="text-xl font-semibold mb-3">
+            Available USC Marshall Classes
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <AnimatePresence mode="wait" custom={direction}>
               {businessClasses.slice(classIndex, classIndex + 3).map((c, i) => (
@@ -120,10 +154,16 @@ export default function Dashboard() {
             </AnimatePresence>
           </div>
           <div className="flex justify-end gap-2 mt-4">
-            <button onClick={() => handleClassChange(-1)} className="border border-gray-500 rounded-full p-2 bg-white">
+            <button
+              onClick={() => handleClassChange(-1)}
+              className="border border-gray-500 rounded-full p-2 bg-white"
+            >
               <ChevronLeft className="h-6 w-6 text-gray-600" />
             </button>
-            <button onClick={() => handleClassChange(1)} className="border border-gray-500 rounded-full p-2 bg-white">
+            <button
+              onClick={() => handleClassChange(1)}
+              className="border border-gray-500 rounded-full p-2 bg-white"
+            >
               <ChevronRight className="h-6 w-6 text-gray-600" />
             </button>
           </div>
@@ -131,7 +171,9 @@ export default function Dashboard() {
 
         {/* Tutor Section */}
         <section className="mt-8">
-          <h3 className="text-xl font-semibold mb-3">Top USC Business Tutors</h3>
+          <h3 className="text-xl font-semibold mb-3">
+            Top USC Business Tutors
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <AnimatePresence mode="wait" custom={tutorDirection}>
               {uscTutors.slice(tutorIndex, tutorIndex + 3).map((t, i) => (
@@ -143,16 +185,26 @@ export default function Dashboard() {
                   exit={{ opacity: 0, x: -tutorDirection * 50 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <TutorCard name={t.name} subject={t.subject} rating={t.rating} />
+                  <TutorCard
+                    name={t.name}
+                    subject={t.subject}
+                    rating={t.rating}
+                  />
                 </motion.div>
               ))}
             </AnimatePresence>
           </div>
           <div className="flex justify-end gap-2 mt-4">
-            <button onClick={() => handleTutorChange(-1)} className="border border-gray-500 rounded-full p-2 bg-white">
+            <button
+              onClick={() => handleTutorChange(-1)}
+              className="border border-gray-500 rounded-full p-2 bg-white"
+            >
               <ChevronLeft className="h-6 w-6 text-gray-600" />
             </button>
-            <button onClick={() => handleTutorChange(1)} className="border border-gray-500 rounded-full p-2 bg-white">
+            <button
+              onClick={() => handleTutorChange(1)}
+              className="border border-gray-500 rounded-full p-2 bg-white"
+            >
               <ChevronRight className="h-6 w-6 text-gray-600" />
             </button>
           </div>
