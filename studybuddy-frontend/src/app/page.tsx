@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Button } from "../../components/ui/button";
 import { Dialog } from "../../components/ui/dialog";
-import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
