@@ -6,7 +6,6 @@ import { Dialog } from "../../components/ui/dialog";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [isSignUp, setIsSignUp] = useState(true);
 
