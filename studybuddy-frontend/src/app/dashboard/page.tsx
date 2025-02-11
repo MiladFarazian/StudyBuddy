@@ -15,6 +15,7 @@ import {
 } from "../../../components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import Link from "next/link";
 
 const businessClasses = [
   { title: "Financial Accounting", instructor: "Prof. Jane Anderson" },
@@ -45,15 +46,20 @@ const uscTutors = [
 function NavItem({
   icon: Icon,
   label,
+  href,
 }: {
   icon: React.ElementType;
   label: string;
+  href: string;
 }) {
   return (
-    <div className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-200 cursor-pointer">
+    <Link
+      href={href}
+      className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-200 cursor-pointer"
+    >
       <Icon className="h-5 w-5 text-blue-600" />
       <span className="text-gray-800">{label}</span>
-    </div>
+    </Link>
   );
 }
 
@@ -126,8 +132,8 @@ export default function Dashboard() {
       <aside className="w-64 bg-white shadow-md p-5 flex flex-col gap-4">
         <h1 className="text-xl font-bold text-blue-600">StudyBuddy</h1>
         <nav className="flex flex-col gap-2">
-          <NavItem icon={Home} label="Explore" />
-          <NavItem icon={MessageSquare} label="Messages" />
+          <NavItem icon={Home} label="Explore" href="/dashboard" />
+          <NavItem icon={MessageSquare} label="Messages" href="/messages" />
         </nav>
       </aside>
 
