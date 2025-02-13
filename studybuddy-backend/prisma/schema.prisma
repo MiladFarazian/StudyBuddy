@@ -7,85 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String // Hashed password (or SSO)
-  name      String
-  role      Role
-  verified  Boolean  @default(false)
-  createdAt DateTime @default(now())
-
-  tutors     Tutor[] // If User is a Tutor, linked here
-  bookings   Booking[] // If User is a Student, bookings are here
-  tutorLinks TutorStudent[] // If User is a Student, these are their tutors
-}
-
-model Tutor {
-  id       String         @id @default(uuid())
-  userId   String
-  user     User           @relation(fields: [userId], references: [id])
-  courses  TutorCourse[] // Many-to-Many with Courses
-  students TutorStudent[] // Many-to-Many with Students
-  bio      String?
-  rating   Float          @default(0.0)
-  verified Boolean        @default(false)
-  Booking  Booking[]
-}
-
-model TutorStudent {
-  tutorId   String
-  studentId String
-
-  tutor   Tutor @relation(fields: [tutorId], references: [id])
-  student User  @relation(fields: [studentId], references: [id])
-
-  @@id([tutorId, studentId]) // Composite Primary Key
-}
-
-model Course {
-  id      String        @id @default(uuid())
-  code    String        @unique // e.g., "CSCI-570"
-  title   String
-  tutors  TutorCourse[] // Many-to-Many via junction table
-  Booking Booking[]
-}
-
-model TutorCourse {
-  tutorId  String
-  courseId String
-
-  tutor  Tutor  @relation(fields: [tutorId], references: [id])
-  course Course @relation(fields: [courseId], references: [id])
-
-  @@id([tutorId, courseId]) // Composite Primary Key
-}
-
-model Booking {
-  id          String        @id @default(uuid())
-  studentId   String
-  tutorId     String
-  courseId    String
-  status      BookingStatus @default(PENDING)
-  sessionTime DateTime
-
-  student User   @relation(fields: [studentId], references: [id])
-  tutor   Tutor  @relation(fields: [tutorId], references: [id])
-  course  Course @relation(fields: [courseId], references: [id])
-
-  payment Payment?
-}
-
-model Payment {
-  id        String        @id @default(uuid())
-  bookingId String        @unique
-  amount    Float
-  status    PaymentStatus @default(PENDING)
-  createdAt DateTime      @default(now())
-
-  booking Booking @relation(fields: [bookingId], references: [id]) // ✅ Properly references Booking.id
-}
-
 enum Role {
   STUDENT
   TUTOR
@@ -103,4 +24,120 @@ enum PaymentStatus {
   PENDING
   COMPLETED
   FAILED
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role
+  verified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  Student Student?
+  Tutor   Tutor?
+}
+
+model Student {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  major     String?
+  year      Int?
+  gpa       Float?
+  createdAt DateTime @default(now())
+
+  user        User           @relation(fields: [userId], references: [id])
+  enrollments StudentClass[]
+  bookings    Booking[]
+  payments    Payment[]
+
+  tutors TutorStudent[]
+}
+
+model Tutor {
+  id       String  @id @default(uuid())
+  userId   String  @unique
+  bio      String?
+  rating   Float   @default(0.0)
+  verified Boolean @default(false)
+
+  user     User           @relation(fields: [userId], references: [id])
+  classes  TutorClass[]
+  bookings Booking[]
+  payments Payment[]
+  students TutorStudent[]
+}
+
+model ClassList {
+  id          String   @id @default(uuid())
+  title       String   @unique
+  description String
+  instructor  String
+  createdAt   DateTime @default(now())
+
+  students StudentClass[]
+  tutors   TutorClass[]
+  bookings Booking[]
+}
+
+model StudentClass {
+  studentId String
+  classId   String
+
+  student Student   @relation(fields: [studentId], references: [id])
+  class   ClassList @relation(fields: [classId], references: [id])
+
+  @@id([studentId, classId])
+}
+
+model TutorClass {
+  tutorId String
+  classId String
+
+  tutor Tutor     @relation(fields: [tutorId], references: [id])
+  class ClassList @relation(fields: [classId], references: [id])
+
+  @@id([tutorId, classId])
+}
+
+model TutorStudent {
+  tutorId   String
+  studentId String
+
+  tutor   Tutor   @relation(fields: [tutorId], references: [id])
+  student Student @relation(fields: [studentId], references: [id])
+
+  @@id([tutorId, studentId])
+}
+
+model Booking {
+  id          String        @id @default(uuid())
+  studentId   String
+  tutorId     String
+  classId     String
+  status      BookingStatus @default(PENDING)
+  sessionTime DateTime
+  createdAt   DateTime      @default(now())
+
+  student Student   @relation(fields: [studentId], references: [id])
+  tutor   Tutor     @relation(fields: [tutorId], references: [id])
+  class   ClassList @relation(fields: [classId], references: [id])
+  payment Payment?
+}
+
+model Payment {
+  id            String        @id @default(uuid())
+  bookingId     String        @unique
+  studentId     String
+  tutorId       String
+  amount        Float
+  status        PaymentStatus @default(PENDING)
+  paymentMethod String
+  transactionId String?       @unique
+  createdAt     DateTime      @default(now())
+
+  booking Booking @relation(fields: [bookingId], references: [id])
+  student Student @relation(fields: [studentId], references: [id])
+  tutor   Tutor   @relation(fields: [tutorId], references: [id])
 }

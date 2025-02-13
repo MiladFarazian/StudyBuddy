@@ -18,29 +18,119 @@ import { useState } from "react";
 import Link from "next/link";
 
 const businessClasses = [
-  { title: "Financial Accounting", instructor: "Prof. Jane Anderson" },
-  { title: "Marketing Strategies", instructor: "Prof. Robert Johnson" },
-  { title: "Business Ethics", instructor: "Prof. Susan Lee" },
-  { title: "Corporate Finance", instructor: "Prof. Michael Brown" },
-  { title: "Entrepreneurship", instructor: "Prof. Emily White" },
-  { title: "Business Analytics", instructor: "Prof. Daniel Kim" },
-  { title: "Operations Management", instructor: "Prof. Anna Scott" },
-  { title: "International Business", instructor: "Prof. David Miller" },
-  { title: "Investment Management", instructor: "Prof. Laura Green" },
-  { title: "Organizational Behavior", instructor: "Prof. Kevin Hall" },
+  {
+    id: "3f614094-ed3c-4692-b2c4-524fb3520624",
+    title: "Financial Accounting",
+    instructor: "Prof. Jane Anderson",
+  },
+  {
+    id: "cd33e913-2341-4838-ae1c-3f7629543b3c",
+    title: "Marketing Strategies",
+    instructor: "Prof. Robert Johnson",
+  },
+  {
+    id: "92087100-a3d8-44ad-ba8e-54c7dcd40e4e",
+    title: "Business Ethics",
+    instructor: "Prof. Susan Lee",
+  },
+  {
+    id: "94f38fed-6237-4465-b415-f2b80815fca8",
+    title: "Corporate Finance",
+    instructor: "Prof. Michael Brown",
+  },
+  {
+    id: "282ade25-b768-4abd-9b58-907bf555cecd",
+    title: "Entrepreneurship",
+    instructor: "Prof. Emily White",
+  },
+  {
+    id: "3459674f-909a-45f5-9df7-a26a54528136",
+    title: "Business Analytics",
+    instructor: "Prof. Daniel Kim",
+  },
+  {
+    id: "c3bc1444-5e63-46a9-a997-75a4f14c2a2c",
+    title: "Operations Management",
+    instructor: "Prof. Anna Scott",
+  },
+  {
+    id: "b7dc00b7-76e4-4650-97bc-d2f9d70e3705",
+    title: "International Business",
+    instructor: "Prof. David Miller",
+  },
+  {
+    id: "76eedf23-40df-4394-b6fe-3612020d5e60",
+    title: "Investment Management",
+    instructor: "Prof. Laura Green",
+  },
+  {
+    id: "b3763a18-13de-40ca-ac45-7d96e26eba64",
+    title: "Organizational Behavior",
+    instructor: "Prof. Kevin Hall",
+  },
 ];
 
 const uscTutors = [
-  { name: "Chris Thompson", subject: "Financial Accounting", rating: 4.9 },
-  { name: "Sarah Evans", subject: "Marketing Strategies", rating: 4.8 },
-  { name: "Jake Carter", subject: "Business Ethics", rating: 4.7 },
-  { name: "Megan Davis", subject: "Corporate Finance", rating: 4.9 },
-  { name: "Alex Roberts", subject: "Entrepreneurship", rating: 4.8 },
-  { name: "Emily Turner", subject: "Business Analytics", rating: 4.7 },
-  { name: "Ryan Garcia", subject: "Operations Management", rating: 4.9 },
-  { name: "Sophia Lewis", subject: "International Business", rating: 4.8 },
-  { name: "Nathan Scott", subject: "Investment Management", rating: 4.7 },
-  { name: "Jessica Walker", subject: "Organizational Behavior", rating: 4.9 },
+  {
+    id: "1cc98e7f-60d2-4b46-97df-2813c854eb89",
+    name: "Chris Thompson",
+    subject: "Financial Accounting",
+    rating: 4.9,
+  },
+  {
+    id: "7a3857dc-0c74-4ca3-86a1-b060346d2892",
+    name: "Sarah Evans",
+    subject: "Marketing Strategies",
+    rating: 4.8,
+  },
+  {
+    id: "e1474b2c-7a5a-4eac-b70f-2eeab42cdcbf",
+    name: "Jake Carter",
+    subject: "Business Ethics",
+    rating: 4.7,
+  },
+  {
+    id: "b8cc98cf-cabd-47ab-8a46-cc932e04d6f7",
+    name: "Megan Davis",
+    subject: "Corporate Finance",
+    rating: 4.9,
+  },
+  {
+    id: "245e9bf8-f59a-44da-a553-57fbf86e7523",
+    name: "Alex Roberts",
+    subject: "Entrepreneurship",
+    rating: 4.8,
+  },
+  {
+    id: "6a00ef9f-1dec-4b56-89db-75a0654a1a35",
+    name: "Emily Turner",
+    subject: "Business Analytics",
+    rating: 4.7,
+  },
+  {
+    id: "103ccd93-7b15-49ca-ae98-2c1bfdb45ad4",
+    name: "Ryan Garcia",
+    subject: "Operations Management",
+    rating: 4.9,
+  },
+  {
+    id: "8e7e4632-839f-49ce-bd14-689f01903952",
+    name: "Sophia Lewis",
+    subject: "International Business",
+    rating: 4.8,
+  },
+  {
+    id: "2e2b6e32-7654-407d-9a9e-66652f29097c",
+    name: "Nathan Scott",
+    subject: "Investment Management",
+    rating: 4.7,
+  },
+  {
+    id: "891aeb67-8a09-45b8-92b4-6a3ac3245546",
+    name: "Jessica Walker",
+    subject: "Organizational Behavior",
+    rating: 4.9,
+  },
 ];
 
 function NavItem({
@@ -71,14 +161,16 @@ function ClassCard({
   instructor: string;
 }) {
   return (
-    <Card className="p-6 h-48">
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-gray-700">Instructor: {instructor}</p>
-      </CardContent>
-    </Card>
+    <Link href={`/class/${encodeURIComponent(title)}`}>
+      <Card className="p-6 h-48">
+        <CardHeader>
+          <CardTitle className="text-black">{title}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-gray-700">Instructor: {instructor}</p>
+        </CardContent>
+      </Card>
+    </Link>
   );
 }
 
@@ -94,7 +186,7 @@ function TutorCard({
   return (
     <Card className="p-6 h-48">
       <CardHeader>
-        <CardTitle>{name}</CardTitle>
+        <CardTitle className="text-black">{name}</CardTitle>
       </CardHeader>
       <CardContent>
         <p className="text-gray-700">Subject: {subject}</p>
