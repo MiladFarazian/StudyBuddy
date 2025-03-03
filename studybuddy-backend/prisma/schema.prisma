@@ -26,17 +26,64 @@ enum PaymentStatus {
   FAILED
 }
 
-model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  name      String
-  role      Role
-  verified  Boolean  @default(false)
-  createdAt DateTime @default(now())
+enum Year {
+  FRESHMAN
+  SOPHOMORE
+  JUNIOR
+  SENIOR
+  GRAD_STUDENT
+}
 
-  Student Student?
-  Tutor   Tutor?
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum Rewarding {
+  IMPROVING_GRADES
+  HELPING_STUDENTS
+  TEST_PREP
+}
+
+model User {
+  id            String   @id @default(uuid())
+  name          String
+  major         String
+  year          Year
+  gpa           Float?
+  transcriptUrl String? // Store file path or binary reference
+  gender        Gender
+  email         String   @unique
+  phone         String
+  createdAt     DateTime @default(now())
+
+  experience  Experience?
+  preferences Preferences?
+  Student     Student?
+  Tutor       Tutor?
+}
+
+model Experience {
+  id                String  @id @default(uuid())
+  user              User    @relation(fields: [userId], references: [id])
+  userId            String  @unique
+  taExperience      Boolean
+  tutorExperience   Boolean
+  experienceDetails String?
+}
+
+model Preferences {
+  id                    String    @id @default(uuid())
+  user                  User      @relation(fields: [userId], references: [id])
+  userId                String    @unique
+  hourlyRate            Float?
+  nearCampus            Boolean
+  meetInPerson          Boolean
+  availableHoursPerWeek Int
+  classes               Json // JSON array or comma-separated values
+  desiredCareer         String?
+  motivation            String?
+  rewardingExperience   Rewarding
 }
 
 model Student {

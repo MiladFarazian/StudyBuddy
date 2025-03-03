@@ -1,7 +1,10 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+    turbo: {
+      rules: {}, // ✅ Correct - use "rules" instead of "loaders"
+    },
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

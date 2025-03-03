@@ -6,7 +6,14 @@ import { Dialog } from "../../components/ui/dialog";
 
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
-  const [isSignUp, setIsSignUp] = useState(true);
+
+  const [role, setRole] = useState<"student" | "tutor" | null>(null);
+
+  const handleSelectRole = (selectedRole: "student" | "tutor") => {
+    setRole(selectedRole);
+    setShowModal(false);
+    console.log(`User selected: ${selectedRole}`);
+  };
 
   return (
     <main className="relative min-h-screen flex flex-col">
@@ -68,8 +75,7 @@ export default function Home() {
       <Dialog
         open={showModal}
         onOpenChange={setShowModal}
-        isSignUp={isSignUp}
-        setIsSignUp={setIsSignUp}
+        onSelectRole={handleSelectRole}
       />
 
       {/* Animation Styling */}

@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
+import { useRouter } from "next/navigation";
 
 export function Dialog({
   open,
   onOpenChange,
-  isSignUp,
-  setIsSignUp,
+  onSelectRole,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  isSignUp: boolean;
-  setIsSignUp: (value: boolean) => void;
+  onSelectRole: (role: "student" | "tutor") => void;
 }) {
   const [isClient, setIsClient] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     setIsClient(true);
@@ -31,50 +31,28 @@ export function Dialog({
       overlayClassName="modal-overlay"
     >
       <div className="text-center">
-        <h2 className="text-2xl font-bold">
-          {isSignUp ? "Sign Up" : "Log In"}
-        </h2>
-        <form className="mt-4 space-y-3">
-          {isSignUp && (
-            <input
-              type="text"
-              placeholder="Full Name"
-              className="w-full p-2 border rounded"
-            />
-          )}
-          <input
-            type="email"
-            placeholder="Email"
-            className="w-full p-2 border rounded"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full p-2 border rounded"
-          />
-          {isSignUp && (
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              className="w-full p-2 border rounded"
-            />
-          )}
+        <h2 className="text-2xl font-bold">Are you a tutor or student?</h2>
+        <div className="mt-6 flex justify-center gap-6">
           <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg"
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+            onClick={() => {
+              onSelectRole("student");
+              onOpenChange(false);
+            }}
           >
-            {isSignUp ? "Create Account" : "Log In"}
+            Student
           </button>
-        </form>
-        <p className="text-sm text-gray-600 mt-4">
-          {isSignUp ? "Already have an account?" : "Don't have an account?"}
           <button
-            className="text-blue-600 font-semibold ml-4"
-            onClick={() => setIsSignUp(!isSignUp)}
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+            onClick={() => {
+              onSelectRole("tutor");
+              onOpenChange(false);
+              router.push("/get-started");
+            }}
           >
-            {isSignUp ? "Log In" : "Sign Up"}
+            Tutor
           </button>
-        </p>
+        </div>
       </div>
     </Modal>
   );
